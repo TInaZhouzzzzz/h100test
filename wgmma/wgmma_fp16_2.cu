@@ -47,7 +47,8 @@ void InitZero_float(float* a, const int n) {
 void show(float * a, const int n) {
   std::cout << std::endl;
   for ( int i=0; i<n; i++){ 
-    std::cout<<a[i] << std::endl;
+    std::cout<<a[i] << " ";
+//  std::cout<<a[i] << std::endl;
   }
   std::cout << std::endl;
 }
@@ -57,11 +58,11 @@ void show(float * a, const int n) {
 
 __global__ void wgmma_test1(float *d, __half *a,  __half *b) {
   asm volatile("{\n\t"
-               "ld.param.u64 	%rd2, [_Z11wgmma_test1PfP6__halfS1__param_0];\n\t"
-               ".reg .b32 d<4>;\n\t"
-               "wgmma.mma_async.sync.aligned.m64n8k16.f32.f16.f16\n\t"
-               "{d0, d1, d2, d3}, %1, %2,1,1,1,0,0;\n\t"
-               "st.f32 [%0], 1.0;\n\t"
+               "ld.param.u64 	%rd1, [_Z11wgmma_test1PfP6__halfS1__param_0];\n\t"
+//             ".reg .b32 d<4>;\n\t"
+//             "wgmma.mma_async.sync.aligned.m64n8k16.f32.f16.f16\n\t"
+//             "{d0, d1, d2, d3}, %1, %2,1,1,1,0,0;\n\t"
+               "st.f32 [%0], 100.0;\n\t"
                "}\n\t"
                : "=l"(d) : "l"(a), "l"(b));
 }
@@ -111,5 +112,5 @@ int main(int argc, char** argv){
   fp32.f=host_d[0];
 //std::cout<< host_d[0] << std::endl;
   std::cout<< hex << fp32.i << std::endl;
-//show(host_d, size);
+  show(host_d, size);
 }
